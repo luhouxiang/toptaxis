@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<!--ÈÕÖ¾ÅäÖÃ-->
+	<log log_path="../log" log_level="8" log_size="320000000" log_prefix="notify"/>
+
+	<!--notifyÅäÖÃ-->
+	<listen ip="0.0.0.0" port="30001" link_alive_time="3600" listen_arg="100"/>
+
+	<!--Í¬²½´¦ÀíÏß³Ì¸öÊý-->
+	<system sync_thread_num="20"/>
+	
+	<!--semp_key:ÐÅºÅÁ¿key-->
+	<!--max_sync_num:Ò»´Î×î´óÍ¬²½ÓÃ»§¼ÇÂ¼Êý-->
+	<master semp_key="9999" max_sync_num="100"/>
+	
+	<!--TOPÅÅÐò±¸»úÐÅÏ¢ÅäÖÃ-->
+	<server_list >
+		<server ip="172.25.32.113" port="32101" timeout="3"/>
+	</server_list>
+	
+</content>	

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<content title="toptaxisconf">
+	<log_info >
+		<run_log log_path="../log" log_level="8" log_size="320000000"></run_log>
+		<data_log water_path="../waterlog" waterlog_size="2000000000" water_prename="water"></data_log>
+	</log_info>
+	<toptaxis_moudle>
+		<!--keepalivetime: Á´Â·¼¤»î±£³ÖÊ±¼ä£¬µ¥Î»Îªs; timeout:µ¥´ÎÏûÏ¢¼¤»î±£³ÖÊ±¼ä£¬µ¥Î»Îªs£¬±¾ÏµÍ³ÖÐÔÝÊ±ÎÞÒâÒå-->
+		<!--type:·þÎñÆ÷ÀàÐÍ£¬0±íÊ¾ÎªÖ÷topÅÅÐòServer, 1±íÊ¾topÅÅÐò²éÑ¯Server,-->
+		<!--scan_begin_time:Ã¿Ìì¶¨Ê±ÖÃ»»ÀúÊ·Êý¾ÝµÄÊ±¼ä,µ¥Î»ÎªÐ¡Ê±¡£coldbak_begin_time:Ã¿Ìì¶¨Ê±Àä±¸×îÐÂÅÅÐòÊý¾ÝµÄÊ±¼ä£¬µ¥Î»ÎªÐ¡Ê±¡£-->
+		<server_info type="0" coldbak_begin_time="4" scan_begin_time="0"></server_info>
+        <listen_info protocol="tcp" listen_ip="172.25.32.113" keepalivetime="360000" timeout="10" accept_num="16"></listen_info>
+        <epoller_info incomingpoller="1000" ></epoller_info>
+	</toptaxis_moudle>
+</content>
+

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding='ISO-8859-1'?>
+<content title="rule_cfg" bid="2001" white_list="123456|654321|123654">
+	<bid_rule conditions="2.2000.0|user" id="2002" serid="1000" white_list="123456|654321|123654">
+		<rule ruleid="2001" field="2.0.0" topnum="2" overvalue="1" type="0" white_list="654321|123654" rule_enable="1"/>
+	</bid_rule>
+	
+	<server_list>
+		<server bid="1035" modid="1111" cmdid="1111" timeout="3"/>
+		<server bid="1036" modid="1111" cmdid="1111" timeout="3"/>
+		<server bid="1037" modid="1111" cmdid="1111" timeout="3"/>
+		<server bid="1038" modid="1111" cmdid="1111" timeout="3"/>		
+	</server_list>
+	
+	<app_list field_key="uin" field_appid="bid" field_modify="modifylist">
+		<app appid="1">
+			<attr attrname="attr1" bid="1035"/>
+			<attr attrname="attr2" bid="1036"/>
+		</app>
+		
+		<app appid="2">
+			<attr attrname="attr3" bid="1037"/>
+			<attr attrname="attr4" bid="1038"/>
+		</app>		
+	</app_list>	
+	
+</content>
+

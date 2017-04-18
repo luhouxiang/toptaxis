@@ -1,0 +1,143 @@
+#!/usr/bin/expect  --
+####################################
+# 2005.01 by echoqin
+# Copyright (C) 2005 by tencent
+####################################
+
+if { [llength $argv] < 5 } {
+        #puts "### USAGE:  $argv0  timeout-span user  passwd  ip  port  filename(or dirname)  dir  pull/push r/f"
+		puts "### USAGE:  $argv0  ip  filename(or dirname)  dir  pull/push r/f"
+        exit 1
+}
+
+#set timeout [lindex $argv 0]
+#set user [lindex $argv 1]
+#set passwd [lindex $argv 2]
+#set ip [lindex $argv 3]
+#set port [lindex $argv 4]
+#set filename [lindex $argv 5]
+#set dir [lindex $argv 6]
+#set direction [lindex $argv 7]
+#set filetype [lindex $argv 8]
+
+set timeout 9000
+set user user_00
+set passwd isd!@#user
+set ip [lindex $argv 0]
+set port 36000
+set filename [lindex $argv 1]
+set dir [lindex $argv 2]
+set direction [lindex $argv 3]
+set filetype [lindex $argv 4]
+
+set yesnoflag 0
+if { $direction == "pull" } {
+        if { $filetype == "r" } {
+                spawn /usr/bin/rsync  -r -v -azu -e "/usr/local/bin/ssh -l$user -p$port" $ip:$filename $dir
+        } elseif { $filetype == "f" } {
+                spawn /usr/bin/rsync  -v -azu -e "/usr/local/bin/ssh -l$user -p$port" $ip:$filename $dir
+        } else {
+                puts "### USAGE:  $argv0  user  passwd  ip  filename(or dirname)  dir  pull/push r/f"
+                exit 1
+        }
+} elseif { $direction == "push" } {
+
+        if { $filetype == "r" } {
+                spawn /usr/bin/rsync  -r -v -azu -e "/usr/local/bin/ssh -l$user -p$port" $filename $ip:$dir
+        } elseif { $filetype == "f" } {
+                spawn /usr/bin/rsync  -v -azu -e "/usr/local/bin/ssh -l$user -p$port" $filename $ip:$dir
+        } else {
+                puts "### USAGE:  $argv0  user  passwd  ip  filename(or dirname)  dir  pull/push r/f"
+                exit 1
+        }
+}
+
+
+expect  {
+
+        "assword:" {
+                send "$passwd\r"
+        }
+
+        "yes/no)?" {
+                set yesnoflag 1
+                send "yes\r"
+        }
+
+        "FATAL" {
+                puts "\nCHECKERROR: $ip occur FATAL ERROR!!!\n"
+                exit 1
+        }
+
+        timeout {
+                puts "\nCHECKWARNING: $ip logon TIMEOUT!!!\n"
+                exit 1
+        }
+
+        "No route to host" {
+                puts "\nCHECKERROR: $ip No route to host!!!\n"
+                exit 1
+        }
+
+        "Connection Refused" {
+                puts "\nCHECKERROR: $ip Connection Refused!!!\n"
+                exit 1
+        }
+
+        "Connection refused" {
+                puts "\nCHECKERROR: $ip Connection Refused!!!\n"
+                exit 1
+        }
+
+        "Host key verification failed" {
+                puts "\nCHECKERROR: $ip Host key verification failed!!!\n"
+                exit 1
+        }
+
+        "Illegal host key" {
+                puts "\nCHECKERROR: $ip Illegal host key!!!\n"
+                exit 1
+        }
+
+        "Connection Timed Out" {
+                puts "\nCHECKWARNING: $ip logon TIMEOUT!!!\n"
+                exit 1
+        }
+
+        "Interrupted system call" {
+                puts "\nCHECKERROR: $ip Interrupted system call!!!\n"
+                exit 1
+        }
+}
+
+if { $yesnoflag == 1 } {
+        expect {
+                "assword:" {
+                        send "$passwd\r"
+                }
+
+                "yes/no)?" {
+                        set yesnoflag 2
+                        send "yes\r"
+                }
+        }
+}
+
+if { $yesnoflag == 2 } {
+        expect {
+                "assword:" {
+                        send "$passwd\r"
+                }
+        }
+}
+
+expect {
+        "assword:" {
+                send "$passwd\r"
+                puts "\nCHECKERROR: $ip PASSWORD ERROR!!!\n"
+                exit 1
+        }
+
+        eof { exit 0; }
+}
+ 
